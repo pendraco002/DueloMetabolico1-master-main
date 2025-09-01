@@ -6,11 +6,12 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
+  StyleSheet,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGame, gameSelectors } from '../context/GameContext';
 import { useTheme } from '../context/ThemeContext';
-import { getColors, getTypography, spacing, getShadows, getGlobalStyles } from '../styles/theme';
+import { getColors, getTypography, spacing, borderRadius, getShadows, getGlobalStyles } from '../styles/theme';
 
 const ResultsScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -22,6 +23,194 @@ const ResultsScreen = ({ navigation }) => {
   const typography = getTypography(isDarkMode);
   const shadows = getShadows(isDarkMode);
   const globalStyles = getGlobalStyles(isDarkMode);
+
+  // Criar estilos dinâmicos
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    header: {
+      alignItems: 'center',
+      paddingHorizontal: spacing.lg,
+      paddingTop: spacing.lg,
+      paddingBottom: spacing.md,
+    },
+    title: {
+      ...typography.title,
+      color: colors.text,
+      textAlign: 'center',
+      marginBottom: spacing.xs,
+    },
+    subtitle: {
+      ...typography.body,
+      color: colors.textSecondary,
+      textAlign: 'center',
+    },
+    scrollView: {
+      flex: 1,
+    },
+    scrollContent: {
+      paddingHorizontal: spacing.lg,
+      paddingBottom: spacing.lg,
+    },
+    section: {
+      marginBottom: spacing.lg,
+    },
+    sectionTitle: {
+      ...typography.subtitle,
+      color: colors.primary,
+      marginBottom: spacing.md,
+    },
+    statCard: {
+      backgroundColor: colors.backgroundAlt,
+      borderRadius: borderRadius.lg,
+      padding: spacing.lg,
+      marginBottom: spacing.md,
+      borderWidth: isDarkMode ? 1 : 0,
+      borderColor: colors.border,
+      ...shadows.medium,
+    },
+    winnerCard: {
+      borderWidth: 2,
+      borderColor: colors.success,
+      backgroundColor: isDarkMode ? colors.backgroundAlt : colors.success + '10',
+    },
+    winnerBadge: {
+      position: 'absolute',
+      top: -spacing.xs,
+      right: spacing.md,
+      backgroundColor: colors.success,
+      borderRadius: borderRadius.full,
+      paddingHorizontal: spacing.sm,
+      paddingVertical: spacing.xs,
+    },
+    winnerText: {
+      ...typography.small,
+      color: colors.textLight,
+      fontWeight: 'bold',
+    },
+    statHeader: {
+      marginBottom: spacing.md,
+    },
+    playerName: {
+      ...typography.subtitle,
+      color: colors.text,
+      fontWeight: 'bold',
+    },
+    statRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: spacing.sm,
+    },
+    statLabel: {
+      ...typography.body,
+      color: colors.textSecondary,
+    },
+    statValue: {
+      ...typography.body,
+      color: colors.text,
+      fontWeight: '600',
+    },
+    scoreValue: {
+      ...typography.subtitle,
+      color: colors.primary,
+      fontWeight: 'bold',
+    },
+    summaryCard: {
+      backgroundColor: colors.backgroundAlt,
+      borderRadius: borderRadius.md,
+      padding: spacing.md,
+      borderLeftWidth: 4,
+      borderLeftColor: colors.primary,
+      borderWidth: isDarkMode ? 1 : 0,
+      borderColor: colors.border,
+    },
+    summaryRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: spacing.sm,
+    },
+    summaryLabel: {
+      ...typography.body,
+      color: colors.textSecondary,
+      flex: 1,
+    },
+    summaryValue: {
+      ...typography.body,
+      color: colors.text,
+      fontWeight: '600',
+      textAlign: 'right',
+    },
+    historyItem: {
+      backgroundColor: colors.backgroundAlt,
+      borderRadius: borderRadius.md,
+      padding: spacing.md,
+      marginBottom: spacing.sm,
+      borderLeftWidth: 4,
+      borderWidth: isDarkMode ? 1 : 0,
+      borderColor: colors.border,
+    },
+    correctItem: {
+      borderLeftColor: colors.success,
+    },
+    incorrectItem: {
+      borderLeftColor: colors.error,
+    },
+    historyHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      marginBottom: spacing.sm,
+    },
+    historyQuestion: {
+      ...typography.body,
+      color: colors.text,
+      flex: 1,
+      marginRight: spacing.sm,
+    },
+    historyScore: {
+      ...typography.small,
+      fontWeight: 'bold',
+      paddingHorizontal: spacing.xs,
+      paddingVertical: 2,
+      borderRadius: borderRadius.sm,
+    },
+    correctScore: {
+      backgroundColor: colors.success,
+      color: colors.textLight,
+    },
+    incorrectScore: {
+      backgroundColor: colors.error,
+      color: colors.textLight,
+    },
+    historyAnswer: {
+      ...typography.small,
+      color: colors.textSecondary,
+      fontStyle: 'italic',
+    },
+    historyPlayer: {
+      ...typography.small,
+      color: colors.primary,
+      fontWeight: '600',
+      marginTop: spacing.xs,
+    },
+    footer: {
+      paddingHorizontal: spacing.lg,
+      paddingVertical: spacing.lg,
+      backgroundColor: colors.background,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+    },
+    actionButton: {
+      marginBottom: spacing.sm,
+    },
+  });
+
+  // Usar dynamicStyles como styles para compatibilidade
+  const styles = dynamicStyles;
 
   const currentPlayer = gameSelectors.getCurrentPlayer(state);
   const totalScore = gameSelectors.getTotalScore(state, currentPlayer);
@@ -174,7 +363,7 @@ const ResultsScreen = ({ navigation }) => {
           </Text>
         </View>
 
-        <ScrollView 
+        <ScrollView
           style={styles.scrollView}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
