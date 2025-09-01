@@ -127,7 +127,7 @@ Cada carta contém:
 ## 🔮 Próximas Funcionalidades
 
 - [ ] Sistema de som (feedback sonoro)
-- [ ] Modo escuro
+- [x] Modo escuro 
 - [ ] Persistência de dados local
 - [ ] Animações avançadas
 - [ ] Sistema de conquistas

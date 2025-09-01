@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -33,6 +33,7 @@ const ModeSelectionScreen = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [player1Name, setPlayer1Name] = useState('');
   const [player2Name, setPlayer2Name] = useState('');
+  const player2InputRef = useRef(null);
 
   const categories = getCategories();
 
@@ -132,9 +133,16 @@ const ModeSelectionScreen = ({ navigation }) => {
       borderColor: colors.border,
       ...shadows.small,
     },
-    selectedOption: {
+    selectedCard: {
       borderColor: colors.primary,
-      backgroundColor: isDarkMode ? colors.background : colors.backgroundAlt,
+      backgroundColor: isDarkMode ? colors.primary + '20' : colors.primary + '10',
+    },
+    selectedText: {
+      color: colors.primary,
+      fontWeight: 'bold',
+    },
+    selectedDescription: {
+      color: colors.primary,
     },
     optionIcon: {
       fontSize: 32,
@@ -142,6 +150,7 @@ const ModeSelectionScreen = ({ navigation }) => {
     },
     optionTitle: {
       ...typography.subtitle,
+      color: colors.text,
       marginBottom: spacing.xs,
       textAlign: 'center',
     },
@@ -156,7 +165,7 @@ const ModeSelectionScreen = ({ navigation }) => {
       flexWrap: 'wrap',
       gap: spacing.sm,
     },
-    categoryChip: {
+    categoryCard: {
       backgroundColor: colors.backgroundAlt,
       borderRadius: borderRadius.round,
       paddingHorizontal: spacing.md,
@@ -164,7 +173,7 @@ const ModeSelectionScreen = ({ navigation }) => {
       borderWidth: 1,
       borderColor: colors.border,
     },
-    selectedCategory: {
+    selectedCategoryCard: {
       backgroundColor: colors.primary,
       borderColor: colors.primary,
     },
@@ -366,11 +375,15 @@ const ModeSelectionScreen = ({ navigation }) => {
                     maxLength={20}
                     returnKeyType="next"
                     blurOnSubmit={false}
+                    onSubmitEditing={() => {
+                      player2InputRef.current?.focus();
+                    }}
                   />
                 </View>
                 <View style={dynamicStyles.playerInput}>
                   <Text style={dynamicStyles.playerLabel}>Jogador 2</Text>
                   <TextInput
+                    ref={player2InputRef}
                     style={dynamicStyles.nameInput}
                     placeholder="Digite o nome do jogador 2"
                     placeholderTextColor={colors.textSecondary}
