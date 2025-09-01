@@ -87,7 +87,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.duelometabolico"
+    namespace "com.pendraco.DueloMetabolico"
     defaultConfig {
         applicationId 'com.pendraco.DueloMetabolico'
         minSdkVersion rootProject.ext.minSdkVersion
