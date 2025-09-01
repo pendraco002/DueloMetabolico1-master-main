@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from 'react';
-import { shuffleCards, getCardsByCategory } from '../data/cardsDatabase.js';
+import { shuffleCards, getCardsByCategory } from '../data/database.js';
 
 // Estado inicial do jogo
 const initialState = {

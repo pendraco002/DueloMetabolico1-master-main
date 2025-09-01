@@ -23,7 +23,7 @@ const CreditsScreen = () => {
   const teamMembers = [
     {
       name: 'Equipe de Desenvolvimento',
-      role: 'Gabriel,Rennan, Thiago e Vitoria',
+      role: 'Gabriel, Rennan, Thiago e Vitoria',
       description: 'Responsáveis pela criação e implementação do aplicativo',
     },
     {
