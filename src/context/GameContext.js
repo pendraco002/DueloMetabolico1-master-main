@@ -129,11 +129,18 @@ const gameReducer = (state, action) => {
     case gameActions.NEXT_CARD:
       const nextIndex = state.currentCardIndex + 1;
       const isLastCard = nextIndex >= state.cards.length;
-      
+
+      // Se for modo dupla, alternar jogador ao passar para próxima carta
+      let nextPlayerIndex = state.currentPlayerIndex;
+      if (state.gameMode === 'dupla' && !isLastCard) {
+        nextPlayerIndex = (state.currentPlayerIndex + 1) % state.players.length;
+      }
+
       return {
         ...state,
         currentCardIndex: nextIndex,
         currentCard: isLastCard ? null : state.cards[nextIndex],
+        currentPlayerIndex: nextPlayerIndex,
         currentHintLevel: 1,
         attempts: 0,
         showExplanation: false,

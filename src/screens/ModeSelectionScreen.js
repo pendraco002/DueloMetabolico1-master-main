@@ -8,6 +8,8 @@ import {
   ScrollView,
   Alert,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGame } from '../context/GameContext';
@@ -206,153 +208,194 @@ const ModeSelectionScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={globalStyles.safeArea}>
-      <ScrollView style={dynamicStyles.container} showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <View style={dynamicStyles.header}>
-          <Text style={dynamicStyles.title}>Configurar Jogo</Text>
-          <Text style={dynamicStyles.subtitle}>
-            Escolha como você quer jogar
-          </Text>
-        </View>
-
-        {/* Mode Selection */}
-        <View style={dynamicStyles.section}>
-          <Text style={dynamicStyles.sectionTitle}>🎮 Modo de Jogo</Text>
-          <View style={dynamicStyles.optionsContainer}>
-            <TouchableOpacity
-              style={[
-                dynamicStyles.optionCard,
-                selectedMode === 'individual' && dynamicStyles.selectedOption
-              ]}
-              onPress={() => handleModeSelect('individual')}
-            >
-              <Text style={dynamicStyles.optionIcon}>👤</Text>
-              <Text style={dynamicStyles.optionTitle}>Individual</Text>
-              <Text style={dynamicStyles.optionDescription}>
-                Jogue sozinho e teste seus conhecimentos
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[
-                dynamicStyles.optionCard,
-                selectedMode === 'dupla' && dynamicStyles.selectedOption
-              ]}
-              onPress={() => handleModeSelect('dupla')}
-            >
-              <Text style={dynamicStyles.optionIcon}>👥</Text>
-              <Text style={dynamicStyles.optionTitle}>Dupla</Text>
-              <Text style={dynamicStyles.optionDescription}>
-                Desafie um amigo no sistema "Passa e Joga"
-              </Text>
-            </TouchableOpacity>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      >
+        <ScrollView style={dynamicStyles.container} showsVerticalScrollIndicator={false}>
+          {/* Header */}
+          <View style={dynamicStyles.header}>
+            <Text style={dynamicStyles.title}>Configurar Jogo</Text>
+            <Text style={dynamicStyles.subtitle}>
+              Escolha como você quer jogar
+            </Text>
           </View>
-        </View>
 
-        {/* Type Selection */}
-        {selectedMode && (
+          {/* Mode Selection */}
           <View style={dynamicStyles.section}>
-            <Text style={dynamicStyles.sectionTitle}>⚡ Tipo de Jogo</Text>
+            <Text style={dynamicStyles.sectionTitle}>🎮 Modo de Jogo</Text>
             <View style={dynamicStyles.optionsContainer}>
               <TouchableOpacity
                 style={[
                   dynamicStyles.optionCard,
-                  selectedType === 'rapido' && dynamicStyles.selectedOption
+                  selectedMode === 'individual' && dynamicStyles.selectedCard,
                 ]}
-                onPress={() => handleTypeSelect('rapido')}
+                onPress={() => handleModeSelect('individual')}
               >
-                <Text style={dynamicStyles.optionIcon}>🚀</Text>
-                <Text style={dynamicStyles.optionTitle}>Duelo Rápido</Text>
-                <Text style={dynamicStyles.optionDescription}>
-                  10 cartas aleatórias para uma partida rápida
+                <Text style={dynamicStyles.optionIcon}>👤</Text>
+                <Text style={[
+                  dynamicStyles.optionTitle,
+                  selectedMode === 'individual' && dynamicStyles.selectedText,
+                ]}>
+                  Individual
+                </Text>
+                <Text style={[
+                  dynamicStyles.optionDescription,
+                  selectedMode === 'individual' && dynamicStyles.selectedDescription,
+                ]}>
+                  Jogue sozinho e teste seus conhecimentos
                 </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={[
                   dynamicStyles.optionCard,
-                  selectedType === 'focado' && dynamicStyles.selectedOption
+                  selectedMode === 'dupla' && dynamicStyles.selectedCard,
                 ]}
-                onPress={() => handleTypeSelect('focado')}
+                onPress={() => handleModeSelect('dupla')}
               >
-                <Text style={dynamicStyles.optionIcon}>🎯</Text>
-                <Text style={dynamicStyles.optionTitle}>Prática Focada</Text>
-                <Text style={dynamicStyles.optionDescription}>
-                  Escolha um sistema específico para estudar
+                <Text style={dynamicStyles.optionIcon}>👥</Text>
+                <Text style={[
+                  dynamicStyles.optionTitle,
+                  selectedMode === 'dupla' && dynamicStyles.selectedText,
+                ]}>
+                  Dupla
+                </Text>
+                <Text style={[
+                  dynamicStyles.optionDescription,
+                  selectedMode === 'dupla' && dynamicStyles.selectedDescription,
+                ]}>
+                  Desafie um amigo em um duelo de conhecimento
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
-        )}
 
-        {/* Category Selection */}
-        {selectedType === 'focado' && (
-          <View style={dynamicStyles.section}>
-            <Text style={dynamicStyles.sectionTitle}>📚 Categoria</Text>
-            <View style={dynamicStyles.categoriesContainer}>
-              {categories.map((category) => (
+          {/* Game Type Selection */}
+          {selectedMode && (
+            <View style={dynamicStyles.section}>
+              <Text style={dynamicStyles.sectionTitle}>⚡ Tipo de Partida</Text>
+              <View style={dynamicStyles.optionsContainer}>
                 <TouchableOpacity
-                  key={category}
                   style={[
-                    dynamicStyles.categoryChip,
-                    selectedCategory === category && dynamicStyles.selectedCategory
+                    dynamicStyles.optionCard,
+                    selectedType === 'rapido' && dynamicStyles.selectedCard,
                   ]}
-                  onPress={() => handleCategorySelect(category)}
+                  onPress={() => handleTypeSelect('rapido')}
                 >
+                  <Text style={dynamicStyles.optionIcon}>🚀</Text>
                   <Text style={[
-                    dynamicStyles.categoryText,
-                    selectedCategory === category && dynamicStyles.selectedCategoryText
+                    dynamicStyles.optionTitle,
+                    selectedType === 'rapido' && dynamicStyles.selectedText,
                   ]}>
-                    {category}
+                    Duelo Rápido
+                  </Text>
+                  <Text style={[
+                    dynamicStyles.optionDescription,
+                    selectedType === 'rapido' && dynamicStyles.selectedDescription,
+                  ]}>
+                    10 cartas aleatórias para uma partida rápida
                   </Text>
                 </TouchableOpacity>
-              ))}
-            </View>
-          </View>
-        )}
 
-        {/* Player Names (for dupla mode) */}
-        {selectedMode === 'dupla' && (
-          <View style={dynamicStyles.section}>
-            <Text style={dynamicStyles.sectionTitle}>✏️ Nomes dos Jogadores</Text>
-            <View style={dynamicStyles.playersContainer}>
-              <View style={dynamicStyles.playerInput}>
-                <Text style={dynamicStyles.playerLabel}>Jogador 1</Text>
-                <TextInput
-                  style={dynamicStyles.nameInput}
-                  placeholder="Digite o nome do jogador 1"
-                  placeholderTextColor={colors.textSecondary}
-                  value={player1Name}
-                  onChangeText={setPlayer1Name}
-                  maxLength={20}
-                />
-              </View>
-              <View style={dynamicStyles.playerInput}>
-                <Text style={dynamicStyles.playerLabel}>Jogador 2</Text>
-                <TextInput
-                  style={dynamicStyles.nameInput}
-                  placeholder="Digite o nome do jogador 2"
-                  placeholderTextColor={colors.textSecondary}
-                  value={player2Name}
-                  onChangeText={setPlayer2Name}
-                  maxLength={20}
-                />
+                <TouchableOpacity
+                  style={[
+                    dynamicStyles.optionCard,
+                    selectedType === 'focado' && dynamicStyles.selectedCard,
+                  ]}
+                  onPress={() => handleTypeSelect('focado')}
+                >
+                  <Text style={dynamicStyles.optionIcon}>🎯</Text>
+                  <Text style={[
+                    dynamicStyles.optionTitle,
+                    selectedType === 'focado' && dynamicStyles.selectedText,
+                  ]}>
+                    Prática Focada
+                  </Text>
+                  <Text style={[
+                    dynamicStyles.optionDescription,
+                    selectedType === 'focado' && dynamicStyles.selectedDescription,
+                  ]}>
+                    Estude uma categoria específica
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
-          </View>
-        )}
-      </ScrollView>
+          )}
 
-      {/* Footer Button */}
-      <View style={[dynamicStyles.footer, { paddingBottom: Math.max(insets.bottom, spacing.md) }]}>
-        <TouchableOpacity
-          style={dynamicStyles.startButton}
-          onPress={handleStartGame}
-          disabled={!selectedMode || !selectedType || (selectedType === 'focado' && !selectedCategory)}
-        >
-          <Text style={globalStyles.buttonText}>Iniciar Jogo</Text>
-        </TouchableOpacity>
-      </View>
+          {/* Category Selection (for focused practice) */}
+          {selectedType === 'focado' && (
+            <View style={dynamicStyles.section}>
+              <Text style={dynamicStyles.sectionTitle}>📚 Categoria</Text>
+              <View style={dynamicStyles.categoriesContainer}>
+                {categories.map((category) => (
+                  <TouchableOpacity
+                    key={category}
+                    style={[
+                      dynamicStyles.categoryCard,
+                      selectedCategory === category && dynamicStyles.selectedCategoryCard,
+                    ]}
+                    onPress={() => handleCategorySelect(category)}
+                  >
+                    <Text style={[
+                      dynamicStyles.categoryText,
+                      selectedCategory === category && dynamicStyles.selectedCategoryText,
+                    ]}>
+                      {category}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          )}
+
+          {/* Player Names (for dupla mode) */}
+          {selectedMode === 'dupla' && (
+            <View style={dynamicStyles.section}>
+              <Text style={dynamicStyles.sectionTitle}>✏️ Nomes dos Jogadores</Text>
+              <View style={dynamicStyles.playersContainer}>
+                <View style={dynamicStyles.playerInput}>
+                  <Text style={dynamicStyles.playerLabel}>Jogador 1</Text>
+                  <TextInput
+                    style={dynamicStyles.nameInput}
+                    placeholder="Digite o nome do jogador 1"
+                    placeholderTextColor={colors.textSecondary}
+                    value={player1Name}
+                    onChangeText={setPlayer1Name}
+                    maxLength={20}
+                    returnKeyType="next"
+                    blurOnSubmit={false}
+                  />
+                </View>
+                <View style={dynamicStyles.playerInput}>
+                  <Text style={dynamicStyles.playerLabel}>Jogador 2</Text>
+                  <TextInput
+                    style={dynamicStyles.nameInput}
+                    placeholder="Digite o nome do jogador 2"
+                    placeholderTextColor={colors.textSecondary}
+                    value={player2Name}
+                    onChangeText={setPlayer2Name}
+                    maxLength={20}
+                    returnKeyType="done"
+                  />
+                </View>
+              </View>
+            </View>
+          )}
+        </ScrollView>
+
+        {/* Footer Button */}
+        <View style={[dynamicStyles.footer, { paddingBottom: Math.max(insets.bottom, spacing.md) }]}>
+          <TouchableOpacity
+            style={dynamicStyles.startButton}
+            onPress={handleStartGame}
+            disabled={!selectedMode || !selectedType || (selectedType === 'focado' && !selectedCategory)}
+          >
+            <Text style={globalStyles.buttonText}>Iniciar Jogo</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
